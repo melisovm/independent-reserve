@@ -26,7 +26,7 @@ const wallets: Wallet[] = [
 	{
 		coin: 'xrp',
 		name: 'Ripple',
-		canWithdraw: true,
+		canWithdraw: false,
 		balance: {
 			available: '1,240000000',
 			total: '1,240000000',

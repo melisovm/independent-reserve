@@ -16,7 +16,12 @@ export const useWalletStore = defineStore('wallet', {
 	},
 	
 	actions: {
-		async fetchWalletList() {
+		//params: force - for send GET request despite are exist wallets or not(only for optimisation purposes)
+		async fetchWalletList(force = false) {
+			if (!force && this.wallets.length) {
+				return;
+			}
+			
 			this.wallets = await getWallets();
 		},
 	},

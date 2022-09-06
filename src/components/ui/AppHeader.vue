@@ -1,7 +1,9 @@
 <template>
 <header class="app-header">
   <div class="text-center w-full py-7">
-    <img src="../../assets/logo.svg" class="mx-auto" alt="">
+    <router-link to="/">
+      <img src="../../assets/logo.svg" class="mx-auto" alt="">
+    </router-link>
   </div>
 </header>
 </template>

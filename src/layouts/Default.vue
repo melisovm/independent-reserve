@@ -1,9 +1,9 @@
 <template>
-  <div class="layout --default">
+  <div class="h-full w-full --default">
     <app-header />
 
-    <main class="content mt-12 mx-24">
-      <router-view />
+    <main class="h-full">
+      <router-view class="mt-12 mx-24" :key="$route.path" />
     </main>
   </div>
 </template>
@@ -12,13 +12,3 @@
 import { AppHeader } from "../components/ui";
 </script>
 
-<style scoped lang="scss">
-.layout {
-  width: 100%;
-  height: 100%;
-}
-
-.content {
-  height: 100%;
-}
-</style>

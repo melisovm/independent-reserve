@@ -33,10 +33,10 @@
           <td>
             <div class="flex items-center">
               <div class="image-block flex items-center justify-center">
-                <img :src="getImage(wallet)" :alt="wallet.name">
+                <img :src="getImageUrl(wallet)" :alt="wallet.name">
               </div>
               <span class="font-bold">
-                {{ wallet.coin.toUpperCase() }} | &nbsp;
+                {{ wallet.coin.toUpperCase() }} |&nbsp;
               </span>
               <span> {{ wallet.name }} </span>
             </div>
@@ -44,8 +44,8 @@
           <td>{{ wallet.balance.available }}</td>
           <td>{{ wallet.balance.total }}</td>
           <td>{{ wallet.balance.fiatCurrency }} {{ wallet.balance.fiat }}</td>
-          <td v-if="wallet.canWithdraw" class="text-right">
-            <span class="button">
+          <td class="text-right">
+            <span v-if="wallet.canWithdraw" class="button" @click="onWithdraw(wallet, index)">
               Withdraw
             </span>
           </td>
@@ -57,10 +57,15 @@
 
 <script setup lang="ts">
 import {computed, onBeforeMount, ref} from 'vue';
-import { useWalletStore } from '../../stores/wallet';
-import { Wallet } from '../../models/wallet';
+
+import {useWalletStore} from '../../stores/wallet';
+import {getImageUrl} from "../../helpers/wallet";
+import {useRouter} from "vue-router";
+import {Wallet} from "../../models/wallet";
+import {WithdrawConfirmationType} from "../../models/withdraw";
 
 const walletStore = useWalletStore();
+const router = useRouter();
 
 const searchQuery = ref('');
 
@@ -81,9 +86,18 @@ const filteredWallets = computed(() => {
   return wallets.value;
 })
 
-const getImage = ({ coin }: Wallet) => {
-  return new URL(`../../assets/${coin}.svg`, import.meta.url).href;
-};
+// params: wallet - to get which coin is selected, index - for imitation security type(just hack;))
+const onWithdraw = (wallet: Wallet, index: number) => {
+  router.push({
+    name: 'Withdraw',
+    params: {
+      coin: wallet.coin,
+      type: index % 2 === 0
+        ? WithdrawConfirmationType.password
+        : WithdrawConfirmationType.tfa
+    }
+  });
+}
 </script>
 
 <style scoped lang="scss">
